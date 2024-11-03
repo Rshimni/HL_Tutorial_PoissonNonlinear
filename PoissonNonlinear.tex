@@ -149,7 +149,7 @@ where $k$ is an iteration index. An initial guess $u^0$ must be provided to star
 For Ritz-Galerkin FE model, the choice of the test functions is restricted to the spaces of approximation functions used for the solution field. Suppose that the variable $u$ approximated by expansions of the form
 \begin{equation}\label{eq13}
 	\begin{aligned}
-		u(\mathbf{x}, t)= \sum_{j=1}^{M} \phi_j(\mathrm{x}) u_j(t) = \boldsymbol{\Phi}^T\mathbf{u} \thinspace.
+		u(\mathbf{x})= \sum_{j=1}^{M} \phi_j(\mathrm{x}) u_j = \boldsymbol{\Phi}^T\mathbf{u} \thinspace.
 	\end{aligned}
 \end{equation}
 
@@ -165,7 +165,7 @@ The above equations can be written symbolically in matrix form as
 		\mathbf{K}\mathbf{\theta} = \mathbf{F}\thinspace.
 	\end{aligned}
 \end{equation}
-In the Hiperlife legacy codes the coefficient matrices $\mathbf{K}$ and $\mathbf{F}$  shown in Eq. (\ref{15}) are defined as Hessain and Jacobian, respectively. In this problem they are given by
+In the Hiperlife legacy codes the coefficient matrices $\mathbf{K}$ and $\mathbf{F}$  shown in Eq. (\ref{eq15}) are defined as Hessain and Jacobian, respectively. In this problem they are given by
 \begin{equation}\label{eq16}
 	\begin{aligned}
 		\mathbf{K}_{ij} &= \int_{\Omega^e} \left\lbrack \phi_j \nabla u^k \cdot \nabla \phi_i + (1+u^k) \nabla \phi_j \cdot \nabla \phi_i \right\rbrack\mathrm{d}A\thinspace,\\
