@@ -57,7 +57,7 @@ citecolor=green,urlcolor=red]{hyperref}
 \linenumbers
 
 \section{Problem Definition} \label{sec: pd} 
-The nonlinear Poisson equation is significantly more challenging to solve than its linear counterpart because the relationship between the potential and source term is complex. Understanding and solving the nonlinear Poisson equation is essential for designing and optimizing devices, interpreting material behaviors, and simulating natural processes in many areas of physics and engineering.
+The nonlinear Poisson equations are significantly more challenging to solve than its linear counterpart because the relationship between the potential and source term is complex. Understanding and solving the nonlinear Poisson equation is essential for designing and optimizing devices, interpreting material behaviors, and simulating natural processes in many areas of physics and engineering.
 \begin{figure}[htbp]
 	\centering
 	\input{Figures/geometry.tex}
@@ -66,7 +66,7 @@ The nonlinear Poisson equation is significantly more challenging to solve than i
 \end{figure}
 
 The exact solution for this particular problem is given by
-\begin{equation}\label{eq3}
+\begin{equation}\label{eq1}
 	\begin{aligned}
 		u(x,y) = (3x +1)^{1/2}-1\thinspace .
 	\end{aligned}
@@ -74,13 +74,13 @@ The exact solution for this particular problem is given by
 Here we want to use finite element method to solve it. Because in general unlike linear equations, solutions cannot be directly superimposed, and standard analytical methods like separation of variables are usually not applicable for nonlinear type. Instead, specialized techniques such as variational approaches, and numerical methods are employed to tackle these problems.
 \section{Governing Equations} \label{sec: ge}
 In this section we present the governing equations, consider this nonlinear PDE:\cite{BarattaEtal2023}
-\begin{equation}\label{eq1}
+\begin{equation}\label{eq2}
 	\begin{aligned}
 		- \nabla \cdot [(1+u)\nabla u] = f \quad \text{in} \ \Omega
 	\end{aligned}
 \end{equation}
 As it is demonstrated in Figure \ref{fig_SB}, The domain $\Omega$ is a square of dimensions $[0,1] \times [0,1]$ along the $x$ and $y$ coordinates, where $f = 0$ and the boundary conditions to be
-\begin{equation}\label{eq2}
+\begin{equation}\label{eq3}
 	\begin{aligned}
 		u(0,y) &= 0, \ u(1,y) = 1\quad \text{on} \ \Gamma_D \\
 		u_y(x,0) &=u_y(x,1) =0 \quad \text{on} \ \Gamma_N \\
@@ -108,19 +108,19 @@ and
 	\end{aligned}
 \end{equation}
 where $v$ is a test function, which will be equated, in the our FE model to the interpolation function used for $u$.The discrete problem arises as usual by restricting $V$ and $\hat{V}$ to a pair of discrete spaces. Since $\mathcal{F}$ is a nonlinear function of $u$, the variational statement gives rise to a system of nonlinear algebraic equations. using integrating by part this expression over $\Omega$, we have
-\begin{equation}\label{eq8}
+\begin{equation}\label{eq7}
 	\begin{aligned}
 		\mathcal{F}(u; v) = -\int_{\Omega} \nabla \cdot [v (1+u) \nabla u] + \int_{\Omega}  (1+u)\nabla v\nabla u - \int_{\Omega} v f \mathrm{d}\Omega\thinspace .
 	\end{aligned}
 \end{equation}
 Using Gauss’s theorem we get
-\begin{equation}\label{eq9}
+\begin{equation}\label{eq8}
 	\begin{aligned}
 		\mathcal{F}(u; v) =  -\int_{\Gamma} [v (1+u^2) \nabla u] \cdot n \ \mathrm{d} \Gamma + \int_{\Omega} (1+u)\nabla u \nabla v \mathrm{d} \Omega - \int_{\Omega} v f \mathrm{d} \Omega\thinspace .
 	\end{aligned}
 \end{equation}
 Applying boundary conditions ($\Gamma = \Gamma_N \cup \Gamma_D$):
-\begin{equation}\label{eq10}
+\begin{equation}\label{eq9}
 	\begin{aligned}
 		v= 0 \quad &\text{ on } \Gamma_D\thinspace, \\
 		\nabla u \cdot n = 0 \quad &\text{ on } \Gamma_N \thinspace.
@@ -128,45 +128,45 @@ Applying boundary conditions ($\Gamma = \Gamma_N \cup \Gamma_D$):
 \end{equation}
 
 and by assuming $f=0$ we get the final form for $\mathcal{F}$
-\begin{equation}\label{eq11}
+\begin{equation}\label{eq10}
 	\begin{aligned}
 		\mathcal{F}(u; v) = \int_\Omega (1+u)\nabla u\cdot \nabla v \, \mathrm{d}\Omega,
 	\end{aligned}
 \end{equation}
 After having discretized our nonlinear PDE problem, we now need to linearize it, we may use Newton’s method to solve the system of nonlinear algebraic equations. Newton’s method for the system $\mathcal{F}_i(U_1,\ldots,U_j)$ can be formulated by the first terms of a Taylor series approximation for the value of the variational as
-\begin{equation}\label{eq12}
+\begin{equation}\label{eq11}
 	\begin{aligned}
 		\sum_{j=1}^N {\partial \over\partial U_j} \mathcal{F}_i(U_1^k,\ldots,U_N^k)\delta U_j &= -\mathcal{F}_i(U_1^k,\ldots,U_N^k),\quad i=1, \ldots ,N,\\ U_j^{k+1} &= U_j^k + \delta U_j,\quad j=1, \ldots ,N,
 	\end{aligned}
 \end{equation}
 where $k$ is an iteration index. An initial guess $u^0$ must be provided to start the algorithm. We need to compute the $\partial \mathcal{F}_i/\partial U_j$ and the right-hand side vector $-\mathcal{F}_i$. Our present problem has $\mathcal{F}_i$ given by above. so, Hessian is given by
-\begin{equation}\label{eq13}
+\begin{equation}\label{eq12}
 	\begin{aligned}
 		\mathcal{J}(u;\phi_j,\phi_i) = {\partial F_i\over\partial U_j} = \int_\Omega \left\lbrack \frac{\partial u}{\partial U_j} \nabla u^k \cdot \nabla v + (1+u^k) \nabla [\frac{\partial u}{\partial U_j}] \cdot \nabla v \right\rbrack \, \mathrm{d}\Omega\thinspace .
 	\end{aligned}
 \end{equation}
 \section{Finite Element Model} \label{sec: fem}
 For Ritz-Galerkin FE model, the choice of the test functions is restricted to the spaces of approximation functions used for the solution field. Suppose that the variable $u$ approximated by expansions of the form
-\begin{equation}\label{eq14}
+\begin{equation}\label{eq13}
 	\begin{aligned}
 		u(\mathbf{x}, t)= \sum_{j=1}^{M} \phi_j(\mathrm{x}) u_j(t) = \boldsymbol{\Phi}^T\mathbf{u} \thinspace.
 	\end{aligned}
 \end{equation}
 
 By considering Eq. (\ref{eq13}), the Hessian ($\mathcal{J}=\partial \mathcal{F}_i/\partial U_j$) can be introduced in this way
-\begin{equation}\label{eq13}
+\begin{equation}\label{eq14}
 	\begin{aligned}
 		\mathcal{J}(u;\phi_j,\phi_i) = {\partial F_i\over\partial U_j} = \int_\Omega \left\lbrack \phi_j \nabla u^k \cdot \nabla \phi_i + (1+u^k) \nabla \phi_j \cdot \nabla \phi_i \right\rbrack \, \mathrm{d}\Omega\thinspace .
 	\end{aligned}
 \end{equation}
 The above equations can be written symbolically in matrix form as
-\begin{equation}\label{eq13}
+\begin{equation}\label{eq15}
 	\begin{aligned}
 		\mathbf{K}\mathbf{\theta} = \mathbf{F}\thinspace.
 	\end{aligned}
 \end{equation}
 In the Hiperlife legacy codes the coefficient matrices $\mathbf{K}$ and $\mathbf{F}$  shown in Eq. (\ref{15}) are defined as Hessain and Jacobian, respectively. In this problem they are given by
-\begin{equation}\label{eq14}
+\begin{equation}\label{eq16}
 	\begin{aligned}
 		\mathbf{K}_{ij} &= \int_{\Omega^e} \left\lbrack \phi_j \nabla u^k \cdot \nabla \phi_i + (1+u^k) \nabla \phi_j \cdot \nabla \phi_i \right\rbrack\mathrm{d}A\thinspace,\\
 		\mathbf{F}_i &=-\int_{\Omega^e} [(1+u^k)\nabla u^k\cdot \nabla \phi_i]\mathrm{d}A \thinspace.
@@ -174,7 +174,7 @@ In the Hiperlife legacy codes the coefficient matrices $\mathbf{K}$ and $\mathbf
 \end{equation}
 
 The elemental representation of the vector and matrix required for implementation in the Hiperlife would be like\footnote{Note that HiperLife by default applies the $-$ in $Bk(i)$ to Nonlinear problems, so it is not required to add it to your code!}
-\begin{equation}\label{eq14}
+\begin{equation}\label{eq17}
 	\begin{aligned}[b]
 		Bk(i) &= -\mathcal{F}_i = \mathcolor{red}{-}jac \times[(1+u^k)\nabla u^k\cdot \nabla \phi_i], \\
 		Ak(i,j) &=  \mathcal{J}_{ij} = jac \times [\phi_j \nabla u^k \cdot \nabla \phi_i + (1+u^k) \nabla \phi_j \cdot \nabla \phi_i]\thinspace .
@@ -183,7 +183,7 @@ The elemental representation of the vector and matrix required for implementatio
 Note that $dA=dx_{1} \times dx_{2}=jac \ d\xi d\eta$, which $jac=\mathrm{det}(Jacobian)$.
 \section{Choice of Elements} \label{sec: coe}
 Thus, for this simple problem every Lagrange and serendipity family of interpolation functions are admissible for the interpolation of the temperature field, our choice is would be linear quadrilateral element.Linear  Quadrilateral Elements is the simplest quadrilateral element consists of four nodes. The associated interpolation functions for geometry and ﬁeld variables are bilinear.
-\begin{equation}\label{eq11}
+\begin{equation}\label{eq18}
 	\begin{aligned}[b]
 		\boldsymbol{\Phi}_{I}(\xi, \eta) = \frac{1}{4}(1+\xi_I\xi)(1+\eta_I\eta) \quad (I \ \text{from} \ 1 \ \text{to} \ 4)
 	\end{aligned}
