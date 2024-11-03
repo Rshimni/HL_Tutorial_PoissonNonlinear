@@ -162,14 +162,14 @@ By considering Eq. (\ref{eq13}), the Hessian ($\mathcal{J}=\partial \mathcal{F}_
 The above equations can be written symbolically in matrix form as
 \begin{equation}\label{eq15}
 	\begin{aligned}
-		\mathbf{K}\mathbf{\theta} = \mathbf{F}\thinspace.
+		\sum_j \mathcal{J}(u;\phi_j,\phi_i)\{\delta u_j\}^{n+1} = -\mathcal{F}(u;\phi_i)\thinspace.
 	\end{aligned}
 \end{equation}
-In the Hiperlife legacy codes the coefficient matrices $\mathbf{K}$ and $\mathbf{F}$  shown in Eq. (\ref{eq15}) are defined as Hessain and Jacobian, respectively. In this problem they are given by
+In the Hiperlife legacy codes the coefficient matrices $\mathcal{J}$ and $\mathcal{F}$  shown in Eq. (\ref{eq15}) are defined as Hessain and Jacobian, respectively. In this problem they are given by
 \begin{equation}\label{eq16}
 	\begin{aligned}
-		\mathbf{K}_{ij} &= \int_{\Omega^e} \left\lbrack \phi_j \nabla u^k \cdot \nabla \phi_i + (1+u^k) \nabla \phi_j \cdot \nabla \phi_i \right\rbrack\mathrm{d}A\thinspace,\\
-		\mathbf{F}_i &=-\int_{\Omega^e} [(1+u^k)\nabla u^k\cdot \nabla \phi_i]\mathrm{d}A \thinspace.
+		\mathcal{J}_{ij} &= \int_{\Omega^e} \left\lbrack \phi_j \nabla u^k \cdot \nabla \phi_i + (1+u^k) \nabla \phi_j \cdot \nabla \phi_i \right\rbrack\mathrm{d}A\thinspace,\\
+		\mathcal{F}_i &=-\int_{\Omega^e} [(1+u^k)\nabla u^k\cdot \nabla \phi_i]\mathrm{d}A \thinspace.
 	\end{aligned}
 \end{equation}
 
@@ -180,7 +180,7 @@ The elemental representation of the vector and matrix required for implementatio
 		Ak(i,j) &=  \mathcal{J}_{ij} = jac \times [\phi_j \nabla u^k \cdot \nabla \phi_i + (1+u^k) \nabla \phi_j \cdot \nabla \phi_i]\thinspace .
 	\end{aligned}
 \end{equation}
-Note that $dA=dx_{1} \times dx_{2}=jac \ d\xi d\eta$, which $jac=\mathrm{det}(Jacobian)$.
+Note that $\mathrm{d}A=\mathrm{d}x_{1} \times \mathrm{d}x_{2}=jac \ \mathrm{d}\xi \mathrm{d}\eta$, which $jac=\mathrm{det}(Jacobian)$.
 \section{Choice of Elements} \label{sec: coe}
 Thus, for this simple problem every Lagrange and serendipity family of interpolation functions are admissible for the interpolation of the temperature field, our choice is would be linear quadrilateral element.Linear  Quadrilateral Elements is the simplest quadrilateral element consists of four nodes. The associated interpolation functions for geometry and ﬁeld variables are bilinear.
 \begin{equation}\label{eq18}
